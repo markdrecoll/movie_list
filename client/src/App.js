@@ -1,64 +1,31 @@
-import { useState } from 'react'
+import React from 'react'
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Layout, Menu } from 'antd';
+import "antd/dist/antd.css";
+
+import LandingPage from './pages/LandingPage';
+import MovieLogger from './pages/MovieLogger';
+import PopularMovies from './pages/PopularMovies';
+import NavBar from './components/NavBar';
+
+const { Header, Content } = Layout;
+
 function App() {
-
-    const [title, setTitle] = useState("");
-    const [releaseDate, setReleaseDate] = useState("");
-    const [rating, setRating] = useState("");
-    const [description, setDescription] = useState("");
-
-    const handleOnSubmit = async (e) => {
-        e.preventDefault();
-        let result = await fetch(
-        'http://localhost:5000/saveMovie', {
-            method: "post",
-            body: JSON.stringify({ title, releaseDate, rating, description }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        result = await result.json();
-        console.warn(result);
-        if (result) {
-            alert("Data saved successfully");
-            setReleaseDate("");
-            setTitle("");
-            setRating("");
-            setDescription("");
-        }
-    }
-
-    const grabMovies = async () => {
-      document.getElementById('movieList').innerHTML = "";
-      let result = await fetch('http://localhost:5000/retrieveMovies');
-      result = await result.json();
-      for (let i=0; i<result.length; i++){
-        document.getElementById('movieList').innerHTML +=
-          result[i].title + " " + result[i].releaseDate + " " + result[i].rating + " " + result[i].description + "<br>";
-      }
-    }
-
     return (
-        <>
-          <h2>Write in movie information. </h2>
-          <form action="">
-              <input type="text" placeholder="Title" 
-              value={title} onChange={(e) => setTitle(e.target.value)} />
-              <input type="text" placeholder="Release Date" 
-              value={releaseDate} onChange={(e) => setReleaseDate(e.target.value)} />
-              <input type="number" placeholder="Rating" 
-              value={rating} onChange={(e) => setRating(e.target.value)} />
-              <input type="text" placeholder="Description" 
-              value={description} onChange={(e) => setDescription(e.target.value)} />
-              <button type="submit" 
-              onClick={handleOnSubmit}>Save Movie to Database</button>
-          </form>
-
-          <h2>Retrieve Saved Movies </h2>
-
-          <button type="submit" onClick={grabMovies}>See Saved Movies</button>
-
-          <div id="movieList" />
-        </>
+      <Router>
+        <Layout className="layout">
+          <Header>
+            <NavBar />
+          </Header>
+          <Content style={{ padding: '0 50px' }}>
+            <Routes>
+              <Route path="/" element={<LandingPage/>} />
+              <Route path="/movielogger" element={<MovieLogger/>} />
+              <Route path="/popularmovies" element={<PopularMovies/>} />
+            </Routes>
+          </Content>
+        </Layout>
+      </Router>
     );
 }
 
