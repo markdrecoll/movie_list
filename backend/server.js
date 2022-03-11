@@ -66,11 +66,9 @@ app.post("/saveMovie", async (request, response) => {
 });
 
 app.get("/retrieveMovies", async (request, response) => {
-        Movie.find({}).then(function (movies){
-            response.send(movies);
-            console.log("test");
-            console.log(movies);
-        })
+    Movie.find({}).then(function (err, movies){
+        response.send(movies);
+    })
 });
 
 app.listen(5000);
