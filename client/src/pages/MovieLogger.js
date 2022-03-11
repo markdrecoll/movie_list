@@ -20,7 +20,7 @@ function MovieLogger() {
         result = await result.json();
         console.warn(result);
         if (result) {
-            alert("Data saved successfully");
+            alert("Movie data added to database.");
             setReleaseDate("");
             setTitle("");
             setRating("");
@@ -28,20 +28,15 @@ function MovieLogger() {
         }
     }
 
-    const grabMovies = async () => {
-      document.getElementById('movieList').innerHTML = "";
-      let result = await fetch('http://localhost:5000/retrieveMovies', {
-        method: "get",
-        headers: {
-            'Content-Type': 'application/json'
-        }
-      });
-      result = await result.json();
-      console.log(result[0].title);
-      for (let i=0; i<result.length; i++){
+    const grabMovies = async() => {
+        document.getElementById('movieList').innerHTML = "";
+        let result = await fetch('http://localhost:5000/retrieveMovies');
+        result = await result.json();
+        console.log(result);
+        for (let i=0; i<result.length; i++){
         document.getElementById('movieList').innerHTML +=
-          result[i].title + " " + result[i].releaseDate + " " + result[i].rating + " " + result[i].description + "<br>";
-      }
+            result[i].title + " " + result[i].releaseDate + " " + result[i].rating + " " + result[i].description + "<br>";
+        }
     }
 
     return (

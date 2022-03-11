@@ -40,7 +40,7 @@ Movie.createIndexes();
 const express = require('express');
 const app = express();
 const cors = require("cors");
-console.log("App listen at port 5000");
+console.log("This is working on port 5000");
 app.use(express.json());
 app.use(cors());
 app.get("/", (request, response) => {
@@ -66,7 +66,7 @@ app.post("/saveMovie", async (request, response) => {
 });
 
 app.get("/retrieveMovies", async (request, response) => {
-    Movie.find({}).then(function (err, movies){
+    Movie.find({}).then(function (movies){
         console.log(movies);
         response.send(movies);
     })
